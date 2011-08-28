@@ -20,7 +20,6 @@
  */
 package com.AdamOutler.LowLevelUnBrick;
 
-import java.awt.Dimension;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,14 +27,8 @@ import java.util.zip.ZipException;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.FrameView;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.Timer;
-import javax.swing.JFrame;
 
 /**
  * The application's main frame.
@@ -181,7 +174,7 @@ public class HeimdallOneClickView extends FrameView {
             FileOperations.setExecutableBit(SMDK);
             
             String Command = SMDK +" -f " + Statics.TempFolder+"UnBrickPack"+
-                    Statics.Slash+"HIBL.bin -a D0020000;\n" + "sleep 2;\n"
+                    Statics.Slash+"HIBL.bin -a D0020000;\n" + "sleep 3;\n"
                     + SMDK +" -f " + Statics.TempFolder+"UnBrickPack"+
                     Statics.Slash+"Sbl.bin -a 40244000";
             try {
