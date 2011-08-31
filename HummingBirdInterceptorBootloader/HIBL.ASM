@@ -88,7 +88,7 @@ StartUp:
 
 	LDR  R0, [s_otg_clean_a]
 	BL   debug_print
-	LDR	R0, [otg_stack]
+	LDR	R0, [otg_info]
 	MOV	R1, 0
 	MOV	R2, 0x128
 	BL	rebell_fillmem
@@ -161,7 +161,7 @@ BL3_memblock	  dw 0x40200000
 upload_ep_ptr	  dw 0xD00354D0
 init_vars_start   dw 0xD0035400
 mirror_copy_start dw 0xD000C90C
-otg_stack	  dw 0xD0035470
+otg_info	  dw 0xD0035470
 init_vars_size	  dw 0x70
 ram_test_magic1   dw 0x12349876
 uart_reg	  dw 0xD0035458
