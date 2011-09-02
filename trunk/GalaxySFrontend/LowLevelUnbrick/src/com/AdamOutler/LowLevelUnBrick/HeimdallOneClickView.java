@@ -59,7 +59,7 @@ public class HeimdallOneClickView extends FrameView {
         super(app);
         Statics.UseTGZFormat=UseTGZFormat;
         initComponents();
-        this.getFrame().setTitle("Ultimate UnBrick Resurrector- Galaxy Edition"); 
+        this.getFrame().setTitle("Ultimate UnBrickable Resurrector- Galaxy Edition"); 
     }
     
     /**
@@ -88,7 +88,7 @@ public class HeimdallOneClickView extends FrameView {
         mainPanel.setVerifyInputWhenFocusTarget(false);
         Statics.HeimdallOneClickView=this;
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.AdamOutler.LowLevelUnBrick.HeimdallOneClickApp.class).getContext().getResourceMap(HeimdallOneClickView.class);
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.AdamOutler.LowLevelUnBrick.LowLevelUnbrickOneClickApp.class).getContext().getResourceMap(HeimdallOneClickView.class);
         jButton2.setText(resourceMap.getString("Flash.text")); // NOI18N
         jButton2.setToolTipText(resourceMap.getString("Flash.toolTipText")); // NOI18N
         jButton2.setFocusPainted(false);

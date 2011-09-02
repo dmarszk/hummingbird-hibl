@@ -27,7 +27,7 @@ import org.jdesktop.application.SingleFrameApplication;
 /**
  * The main class of the application.
  */
-public class HeimdallOneClickApp extends SingleFrameApplication {
+public class LowLevelUnbrickOneClickApp extends SingleFrameApplication {
 
     /**
      * At startup create and show the main frame of the application.
@@ -52,8 +52,8 @@ public class HeimdallOneClickApp extends SingleFrameApplication {
      * A convenient static getter for the application instance.
      * @return the instance of HeimdallOneClickApp
      */
-    public static HeimdallOneClickApp getApplication() {
-        return Application.getInstance(HeimdallOneClickApp.class);
+    public static LowLevelUnbrickOneClickApp getApplication() {
+        return Application.getInstance(LowLevelUnbrickOneClickApp.class);
     }
 
     /**
@@ -65,6 +65,6 @@ public class HeimdallOneClickApp extends SingleFrameApplication {
         FileOperations FO=new FileOperations();
          FO.makeFolder(Statics.TempFolder);
 
-        launch(HeimdallOneClickApp.class, args);
+        launch(LowLevelUnbrickOneClickApp.class, args);
     }
 }
