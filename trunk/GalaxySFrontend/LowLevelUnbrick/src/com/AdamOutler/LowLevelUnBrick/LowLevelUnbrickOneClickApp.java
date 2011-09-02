@@ -34,9 +34,9 @@ public class LowLevelUnbrickOneClickApp extends SingleFrameApplication {
      */
     @Override protected void startup() {
         if ((getClass().getResource(Statics.ROMPackageTGZ))==null){
-          show(new HeimdallOneClickView(this,false));    
+          show(new LowLevelUnbrickOneClickView(this,false));
         } else{
-          show(new HeimdallOneClickView(this,true));
+          show(new LowLevelUnbrickOneClickView(this,true));
         }
     }
 

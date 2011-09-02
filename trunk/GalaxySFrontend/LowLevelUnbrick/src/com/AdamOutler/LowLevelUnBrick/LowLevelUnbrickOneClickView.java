@@ -33,7 +33,7 @@ import javax.swing.ImageIcon;
 /**
  * The application's main frame.
  */
-public class HeimdallOneClickView extends FrameView {
+public class LowLevelUnbrickOneClickView extends FrameView {
     FileOperations fileOperations = new FileOperations();
     /**
      * 250ms
@@ -55,7 +55,7 @@ public class HeimdallOneClickView extends FrameView {
   
 
     
-    public HeimdallOneClickView(SingleFrameApplication app, boolean UseTGZFormat) {
+    public LowLevelUnbrickOneClickView(SingleFrameApplication app, boolean UseTGZFormat) {
         super(app);
         Statics.UseTGZFormat=UseTGZFormat;
         initComponents();
@@ -88,7 +88,7 @@ public class HeimdallOneClickView extends FrameView {
         mainPanel.setVerifyInputWhenFocusTarget(false);
         Statics.HeimdallOneClickView=this;
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.AdamOutler.LowLevelUnBrick.LowLevelUnbrickOneClickApp.class).getContext().getResourceMap(HeimdallOneClickView.class);
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(com.AdamOutler.LowLevelUnBrick.LowLevelUnbrickOneClickApp.class).getContext().getResourceMap(LowLevelUnbrickOneClickView.class);
         jButton2.setText(resourceMap.getString("Flash.text")); // NOI18N
         jButton2.setToolTipText(resourceMap.getString("Flash.toolTipText")); // NOI18N
         jButton2.setFocusPainted(false);
@@ -153,20 +153,20 @@ public class HeimdallOneClickView extends FrameView {
        
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         FileOperations FileOperations=new FileOperations();
-        Log.level1("Uncompressing HIBL Payload to " + Statics.TempFolder);
+        Log.level1("\nUncompressing HIBL Payload to " + Statics.TempFolder +"/n");
         FileOperations.copyFromResourceToFile("/com/AdamOutler/LowLevelUnBrick/resources/UnBrickPack.zip", Statics.TempFolder+"UnBrickPack.zip");
         Unzip Unzip=new Unzip();
         try {
             Unzip.unzip(Statics.TempFolder+"UnBrickPack.zip");
         } catch (ZipException ex) {
-            Logger.getLogger(HeimdallOneClickView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LowLevelUnbrickOneClickView.class.getName()).log(Level.SEVERE, null, ex);
             Log.level0("ERROR, INVALID ZIP FILE IN PACKAGE");
         } catch (IOException ex) {
-            Logger.getLogger(HeimdallOneClickView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LowLevelUnbrickOneClickView.class.getName()).log(Level.SEVERE, null, ex);
             Log.level0("ERROR, OUT OF SPACE OR NO ACCESS TO TEMP FOLDER");
         }
         Log.level0("\n\n Please wait.... Uploading..");
-        Log.level0("-------------------------------------------------------------\n   Hummingbird Interceptor Boot Loader (HIBL) v1.0\n   Copyright (C) Rebellos 2011\n-------------------------------------------------------------");
+        Log.level0("-------------------------------------------------------------\n   Hummingbird Interceptor Boot Loader (HIBL) v1.0\n   Copyright (C) Rebellos 2011\n-------------------------------------------------------------\n");
         
         if (Statics.isLinux()){
             Shell Shell = new Shell();
@@ -180,16 +180,16 @@ public class HeimdallOneClickView extends FrameView {
             try {
                 FileOperations.writeToFile(Command, Statics.TempFolder+"Script.sh");
             } catch (IOException ex) {
-                Logger.getLogger(HeimdallOneClickView.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LowLevelUnbrickOneClickView.class.getName()).log(Level.SEVERE, null, ex);
                 Log.level0("ERROR WRITING TO TEMP FOLDER");
             }
             ArrayList CommandList = new ArrayList();
-            CommandList.add("gksudo");
-            CommandList.add(Statics.TempFolder+"Script.sh");
+            Statics.HeimdallFlashCommand.add("gksudo");
+            Statics.HeimdallFlashCommand.add(Statics.TempFolder+"Script.sh");
             FileOperations.setExecutableBit(Statics.TempFolder+"Script.sh");
             
-            String[] SendCommand = (String[]) CommandList.toArray(new String[0]);
-            Shell.sendShellCommand(SendCommand);
+            
+            Shell.liveShellCommand();
             // 402244000
             
             //Log.level1(Command.toString());
