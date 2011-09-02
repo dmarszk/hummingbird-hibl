@@ -51,7 +51,7 @@ public class Statics {
     public static ArrayList HeimdallFlashCommand = new ArrayList();
     public static PrintWriter OutFile;
     public static boolean LogCreated=false; //used by log class
-    public static HeimdallOneClickView HeimdallOneClickView;
+    public static LowLevelUnbrickOneClickView HeimdallOneClickView;
     /*
      *Form data for Heimdall One-Click View 
      */
