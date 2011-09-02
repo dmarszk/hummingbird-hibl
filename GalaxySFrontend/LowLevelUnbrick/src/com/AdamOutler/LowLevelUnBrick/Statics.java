@@ -209,10 +209,7 @@ public class Statics {
             Statics.HeimdallInstallFileName="heimdall-win32.zip";
             Statics.OSType="Windows";
             Statics.Slash="\\";
-            InstallHeimdall InstallHeimdall=new InstallHeimdall();
-            System.err.println(Statics.HeimdallInstalled);
-            InstallHeimdall.installHeimdall();
-            
+
 
         } else if (isMac()) {
             OSType="Mac";
@@ -286,8 +283,7 @@ public class Statics {
                        Log.level1("Found Heimdall Version: "+InstalledHeimdallVersion);
                        InstalledHeimdallVersion=Version.replace("\n", "");
                        HeimdallInstalled=true;
-                       InstallHeimdall InstallHeimdall = new InstallHeimdall();
-                       InstallHeimdall.upgradeHeimdall();
+                      
                        return;
                    } else if (Version.equals("\nv1.3.0")) {
                        InstalledHeimdallVersion=Version.replace("\n", "");
@@ -307,8 +303,7 @@ public class Statics {
                 HeimdallInstalled=true;
                 if (InstalledHeimdallVersion.equals("") ){
                     InstalledHeimdallVersion="Unknown version";
-                    InstallHeimdall InstallHeimdall = new InstallHeimdall();
-                    InstallHeimdall.upgradeHeimdall();
+
                 }
                 return;
             } catch (ArrayIndexOutOfBoundsException e) {
