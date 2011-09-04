@@ -148,7 +148,7 @@ public class Shell implements Runnable{
 
  public void liveShellCommand(){
     try {  
-        String[] params = (String[]) Statics.HeimdallFlashCommand.toArray(new String[0]);  
+        String[] params = (String[]) Statics.LiveSendCommand.toArray(new String[0]);  
         Process process = new ProcessBuilder(params).start();
         BufferedReader STDOUT = new BufferedReader( new InputStreamReader(process.getInputStream()));
         BufferedReader STDERR = new BufferedReader( new InputStreamReader(process.getErrorStream()));
@@ -164,17 +164,13 @@ public class Shell implements Runnable{
             CharRead=Character.toString((char)c);
             LineRead=LineRead+CharRead;
             log.progress(CharRead);
-            if (LineRead.endsWith("%")){
-                ResetLine=true;
-                
-            }
         }
         while ((LineRead=STDERR.readLine()) != null){
             log.progress(LineRead);
         }
     
     } catch (IOException ex) {
-                String[] ArrayList =(String[])Statics.HeimdallFlashCommand.toArray();
+                String[] ArrayList =(String[])Statics.LiveSendCommand.toArray();
                 log.level2("Problem while executing"+ ArrayList + 
                         " in Shell.liveShellCommand()");
         Logger.getLogger(Shell.class.getName()).log(Level.SEVERE, null, ex);

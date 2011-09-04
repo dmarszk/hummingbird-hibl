@@ -48,7 +48,7 @@ public class Statics {
      */ 
     static Shell shellCommand = new Shell();
     static Log Log = new Log();    
-    public static ArrayList HeimdallFlashCommand = new ArrayList();
+    public static ArrayList LiveSendCommand = new ArrayList();
     public static PrintWriter OutFile;
     public static boolean LogCreated=false; //used by log class
     public static LowLevelUnbrickOneClickView HeimdallOneClickView;

@@ -7,8 +7,8 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
-<project name="HeimdallOneClick" default="default" basedir=".">
-    <description>Builds, tests, and runs the project HeimdallOneClick.</description>
+<project name="LowLevelUnBrick" default="default" basedir=".">
+    <description>Builds, tests, and runs the project LowLevelUnBrick.</description>
     <import file="nbproject/build-impl.xml"/>
     <!--
 
@@ -59,11 +59,7 @@
 
     An example of overriding the target for project execution could look like this:
 
-        <target name="run" depends="HeimdallOneClick-impl.jar">
-            <exec dir="bin" executable="launcher.exe">
-                <arg file="${dist.jar}"/>
-            </exec>
-        </target>
+
 
     Notice that the overridden target depends on the jar target and not only on 
     the compile target as the regular run target does. Again, for a list of available 

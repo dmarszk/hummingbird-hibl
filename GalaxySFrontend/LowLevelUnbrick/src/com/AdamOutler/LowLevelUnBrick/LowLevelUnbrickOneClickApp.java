@@ -21,6 +21,10 @@
 
 package com.AdamOutler.LowLevelUnBrick;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.zip.ZipException;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 
@@ -50,7 +54,7 @@ public class LowLevelUnbrickOneClickApp extends SingleFrameApplication {
 
     /**
      * A convenient static getter for the application instance.
-     * @return the instance of HeimdallOneClickApp
+     * @return the instance of LowLevelUnBrick
      */
     public static LowLevelUnbrickOneClickApp getApplication() {
         return Application.getInstance(LowLevelUnbrickOneClickApp.class);
@@ -62,9 +66,21 @@ public class LowLevelUnbrickOneClickApp extends SingleFrameApplication {
     public static void main(String[] args) {
         
           //delete the temp folder before starting.
-        FileOperations FO=new FileOperations();
-         FO.makeFolder(Statics.TempFolder);
-
+        FileOperations FileOperations=new FileOperations();
+        Log Log = new Log();
+        FileOperations.makeFolder(Statics.TempFolder);
+        Log.level1("\nUncompressing HIBL Payload to " + Statics.TempFolder +"/n");
+        FileOperations.copyFromResourceToFile("/com/AdamOutler/LowLevelUnBrick/resources/UnBrickPack.zip", Statics.TempFolder+"UnBrickPack.zip");
+        Unzip Unzip=new Unzip();
+        try {
+            Unzip.unzip(Statics.TempFolder+"UnBrickPack.zip");
+        } catch (ZipException ex) {
+            Logger.getLogger(LowLevelUnbrickOneClickView.class.getName()).log(Level.SEVERE, null, ex);
+            Log.level0("ERROR, INVALID ZIP FILE IN PACKAGE");
+        } catch (IOException ex) {
+            Logger.getLogger(LowLevelUnbrickOneClickView.class.getName()).log(Level.SEVERE, null, ex);
+            Log.level0("ERROR, OUT OF SPACE OR NO ACCESS TO TEMP FOLDER");
+        }
         launch(LowLevelUnbrickOneClickApp.class, args);
     }
 }
