@@ -13,7 +13,7 @@
             </test-roots>
         </data>
         <swingapp xmlns="http://www.netbeans.org/ns/form-swingapp/1">
-            <application-class name="com.AdamOutler.LowLevelUnBrick.HeimdallOneClickApp"/>
+            <application-class name="com.AdamOutler.LowLevelUnBrick.LowLevelUnbrickOneClickApp"/>
         </swingapp>
     </configuration>
 </project>

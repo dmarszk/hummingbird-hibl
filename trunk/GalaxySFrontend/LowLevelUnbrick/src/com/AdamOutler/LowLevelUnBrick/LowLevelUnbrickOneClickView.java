@@ -23,7 +23,6 @@ package com.AdamOutler.LowLevelUnBrick;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.zip.ZipException;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.FrameView;
@@ -153,18 +152,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
        
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         FileOperations FileOperations=new FileOperations();
-        Log.level1("\nUncompressing HIBL Payload to " + Statics.TempFolder +"/n");
-        FileOperations.copyFromResourceToFile("/com/AdamOutler/LowLevelUnBrick/resources/UnBrickPack.zip", Statics.TempFolder+"UnBrickPack.zip");
-        Unzip Unzip=new Unzip();
-        try {
-            Unzip.unzip(Statics.TempFolder+"UnBrickPack.zip");
-        } catch (ZipException ex) {
-            Logger.getLogger(LowLevelUnbrickOneClickView.class.getName()).log(Level.SEVERE, null, ex);
-            Log.level0("ERROR, INVALID ZIP FILE IN PACKAGE");
-        } catch (IOException ex) {
-            Logger.getLogger(LowLevelUnbrickOneClickView.class.getName()).log(Level.SEVERE, null, ex);
-            Log.level0("ERROR, OUT OF SPACE OR NO ACCESS TO TEMP FOLDER");
-        }
+        
         Log.level0("\n\n Please wait.... Uploading..");
         Log.level0("-------------------------------------------------------------\n   Hummingbird Interceptor Boot Loader (HIBL) v1.0\n   Copyright (C) Rebellos 2011\n-------------------------------------------------------------\n");
         
@@ -172,24 +160,31 @@ public class LowLevelUnbrickOneClickView extends FrameView {
             Shell Shell = new Shell();
             String SMDK = Statics.TempFolder+"UnBrickPack"+Statics.Slash+"smdk-usbdl";
             FileOperations.setExecutableBit(SMDK);
-            
+            Log.level1("Building command list");
             String Command = SMDK +" -f " + Statics.TempFolder+"UnBrickPack"+
                     Statics.Slash+"HIBL.bin -a D0020000;\n" + "sleep 3;\n"
                     + SMDK +" -f " + Statics.TempFolder+"UnBrickPack"+
                     Statics.Slash+"Sbl.bin -a 40244000";
+            if (FileOperations.verifyFileExists(Statics.TempFolder+"Script.sh")){
+                Log.level1("Clearing Previous Instance");
+                FileOperations.deleteFile(Statics.TempFolder+"Script.sh");
+            }
             try {
+                Log.level1("Building command list");
                 FileOperations.writeToFile(Command, Statics.TempFolder+"Script.sh");
             } catch (IOException ex) {
                 Logger.getLogger(LowLevelUnbrickOneClickView.class.getName()).log(Level.SEVERE, null, ex);
                 Log.level0("ERROR WRITING TO TEMP FOLDER");
             }
+            Log.level1("Requesting Permission to access device");
             ArrayList CommandList = new ArrayList();
-            Statics.HeimdallFlashCommand.add("gksudo");
-            Statics.HeimdallFlashCommand.add(Statics.TempFolder+"Script.sh");
+            Statics.LiveSendCommand.add("gksudo");
+            Statics.LiveSendCommand.add(Statics.TempFolder+"Script.sh");
             FileOperations.setExecutableBit(Statics.TempFolder+"Script.sh");
-            
-            
             Shell.liveShellCommand();
+            
+            
+            
             // 402244000
             
             //Log.level1(Command.toString());

@@ -123,7 +123,7 @@ public class FileOperations {
        File Check = new File(PathToSearch);
        File[] c = Check.listFiles();
        if (Check.exists()){
-           Log.level2("Searching for heimdall in folder:" + PathToSearch.toString());
+           Log.level2("Searching for file in folder:" + PathToSearch.toString());
            for (File file : c){
                String x = file.getName();
                if (file.isDirectory()){
