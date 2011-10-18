@@ -83,7 +83,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
         mainPanel.setMinimumSize(new java.awt.Dimension(650, 650));
         mainPanel.setName("mainPanel"); // NOI18N
         mainPanel.setOpaque(false);
-        mainPanel.setPreferredSize(new java.awt.Dimension(600, 520));
+        mainPanel.setPreferredSize(new java.awt.Dimension(651, 520));
         mainPanel.setVerifyInputWhenFocusTarget(false);
         Statics.HeimdallOneClickView=this;
 
@@ -128,9 +128,9 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                 .addContainerGap()
                 .addComponent(ConnectedLabel)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE))
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
@@ -158,7 +158,14 @@ public class LowLevelUnbrickOneClickView extends FrameView {
         
         if (Statics.isLinux()){
             Shell Shell = new Shell();
-            String SMDK = Statics.TempFolder+"UnBrickPack"+Statics.Slash+"smdk-usbdl";
+            String[] arch={"arch"};
+            String ArchReturn=Shell.sendShellCommand(arch);
+            String SMDK="";
+            if (ArchReturn.contains("64")){
+                SMDK = Statics.TempFolder+"UnBrickPack"+Statics.Slash+"smdk-usbdl64";
+            } else {
+                SMDK = Statics.TempFolder+"UnBrickPack"+Statics.Slash+"smdk-usbdl";
+            }
             FileOperations.setExecutableBit(SMDK);
             Log.level1("Building command list");
             String Command = SMDK +" -f " + Statics.TempFolder+"UnBrickPack"+
@@ -177,7 +184,8 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                 Log.level0("ERROR WRITING TO TEMP FOLDER");
             }
             Log.level1("Requesting Permission to access device");
-            ArrayList CommandList = new ArrayList();
+           
+            Statics.LiveSendCommand=new ArrayList();
             Statics.LiveSendCommand.add("gksudo");
             Statics.LiveSendCommand.add(Statics.TempFolder+"Script.sh");
             FileOperations.setExecutableBit(Statics.TempFolder+"Script.sh");
