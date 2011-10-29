@@ -14,6 +14,23 @@
 ;   See the License for the specific language governing permissions and
 ;   limitations under the License.
 
+@@:
+db 'iROM rev 1.0'
+db 32 - ($-@r) dup 0
+
+ dw 0xD000C90C ;mirror_copy_start
+ dw 0x70       ;init_vars_size
+ dw 0xD00354D0 ;upload_ep_ptr
+ dw 0xD0035400 ;init_vars_start
+ dw 0xD0035458 ;uart_reg
+ dw 0xD0035470 ;otg_info
+
+ dw 0xD0007CAC ;init_system
+ dw 0xD0007D78 ;start_usb_booting
+ dw 0xD0005444 ;system_pause
+ dw 0xD0005620 ;debug_print_irom
+ dw 0xD00055B4 ;debug_print_byte_irom
+
 IRQ_enable		     equ 0xD000C694
 get_irq_status		     equ 0xD0003CFC
 SD_boot 		     equ 0xD000728C 
@@ -27,8 +44,7 @@ config_USB		     equ 0xD00001D0
 config_USBOTG		     equ 0xD00001B0 
 configure_oneNAND	     equ 0xD0003E70 
 copy_sign_to_secboot_stack   equ 0xD0004E44 
-debug_mode_boot 	     equ 0xD00087F4 
-debug_print_irom	     equ 0xD0005620
+debug_mode_boot 	     equ 0xD00087F4
 disableVIC		     equ 0xD0003AC8 
 enableVIC		     equ 0xD0003A34 
 fill_mem_with_FF	     equ 0xD000590C 
@@ -36,8 +52,7 @@ fillmem 		     equ 0xD000AFAC
 generate_hmac_xor_efuse_hash equ 0xD000ACCC 
 handle_usb_interrupt	     equ 0xD0001C4C 
 init_debug_uart 	     equ 0xD0005810
-init_sha1_values_for_chunk   equ 0xD000AA64 
-init_system		     equ 0xD0007CAC 
+init_sha1_values_for_chunk   equ 0xD000AA64
 is_otg_on		     equ 0xD0002020 
 load_sign_info		     equ 0xD0004E90 
 memcpy			     equ 0xD000AEB8  
@@ -54,10 +69,8 @@ set_timer		     equ 0xD0006138
 set_timer_interrupt	     equ 0xD0005164 
 setup_boot_uart 	     equ 0xD00083C8 
 setup_otg_controller	     equ 0xD00020B8 
-start_uart_booting	     equ 0xD0008640 
-start_usb_booting	     equ 0xD0007D78 
-store_magics		     equ 0xD0004DF4 
-system_pause		equ 0xD0005444 
+start_uart_booting	     equ 0xD0008640
+store_magics		     equ 0xD0004DF4
 timer_interrupt_handler equ 0xD0006100	
 timers_control		equ 0xD0005134 
 usb_dload_code		equ 0xD0007CF4 
@@ -66,5 +79,4 @@ validate_code		equ 0xD000A924
 validate_public_rsa	equ 0xD000A7B4 
 validate_sign		equ 0xD0007E6C 
 xor_hmac_with_efuse	equ 0xD000B020 
-zero_usb_stack		equ 0xD0002054 
-debug_print_byte_irom equ 0xD00055B4
+zero_usb_stack		equ 0xD0002054
