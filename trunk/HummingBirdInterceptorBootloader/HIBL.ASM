@@ -16,7 +16,6 @@
 
 	format binary as 'bin'
 	include 'functions.inc'
-	include 'irom_addresses.inc'
 	processor 0x2FFFFFE
 	coprocessor 0x30F8
 
@@ -24,8 +23,7 @@
 	align 4
 c_start:
 	file 'BL1_stage1.bin' ; must be signed for secure boot
-fillup1:
-	db 0x2000 - (fillup1-c_start) dup 0 ; here starts our BL1_stage1 0xD0022000
+	db 0x2000 - ($-c_start) dup 0 ; here starts our BL1_stage1 0xD0022000
 
 	dw 0x0 ; secure boot header - we are out of secure boot already, thanks to Samsung for signing BL1_stage1 which drops secure boot
 	dw 0x0
@@ -51,6 +49,27 @@ _fiq:
 ;endof ARM core handlers
 
 StartUp:
+	LDR  R0, [magic_determ_location]
+	LDR  R0, [R0]
+	LDR  R1, [infuse_magic]
+	CMP  R0, R1
+	BEQ  load_infuse
+	LDR  R0, [sgs_ptrs_l]
+	BL   load_ptrs
+	B    ptrsloaded
+load_infuse:
+	LDR  R0, [infuse_ptrs_l]
+	BL   load_ptrs
+ptrsloaded:
+	MOV  R0, 0xA
+	BL   debug_print_byte
+	LDR  R0, [s_detected_irom_a]
+	BL   debug_print
+	LDR  R0, [irom_rev_str_a]
+	BL   debug_print
+
+	MOV  R0, 0xA
+	BL   debug_print_byte
 
 	LDR  R0, [s_welcome_a]
 	BL   debug_print
@@ -153,12 +172,15 @@ s_dl_start_a	dw s_dl_start
 s_failed_a	dw s_failed
 s_bl3start_a	dw s_bl3start
 s_done_a	dw s_done
+s_detected_irom_a dw s_detected_irom
 
 s_welcome db 0xA,\
 '-------------------------------------------------------------',0xA,\
-'   Hummingbird Interceptor Boot Loader (HIBL) v1.0',0xA,\
+'   Hummingbird Interceptor Boot Loader (HIBL) v2.0',0xA,\
 '   Copyright (C) Rebellos 2011',0xA,\
 '-------------------------------------------------------------',0xA,0x0
+
+s_detected_irom db 'Detected iROM version: ',0x0
 s_bl3_ep db 'BL3 EP: ',0x0
 s_ibl_jumpout db 'Calling IBL Stage2',0x0
 s_iram_init db 'iRAM reinit',0x0
@@ -170,14 +192,64 @@ s_bl3start db 'Download complete, hold download mode key combination.',0xA,0xA,'
 s_done	  db ' ...OK',0xA,0x0
 align 4
 
+
 BL3_memblock	  dw 0x40200000
-upload_ep_ptr	  dw 0xD00354D0
-init_vars_start   dw 0xD0035400
-mirror_copy_start dw 0xD000C90C
-otg_info	  dw 0xD0035470
-init_vars_size	  dw 0x70
 ram_test_magic1   dw 0x12349876
-uart_reg	  dw 0xD0035458
+
+magic_determ_location	dw 0xD0000100
+
+infuse_magic	  dw 0xE5925000
+infuse_ptrs_l	  dw infuse_ptrs
+sgs_magic	  dw 0x11A0F000
+sgs_ptrs_l	  dw sgs_ptrs
+irom_rev_str_a	  dw irom_rev_str
+
+infuse_ptrs:
+include 'infuse.inc'
+
+sgs_ptrs:
+include 'sgs.inc'
+
+
+load_ptrs:
+   STMFD SP!, {R1-R3,LR}
+   MOV R1, 0
+   ldr r2, [BL_abs_ptr]
+copy_loop:
+   ldr r3, [r0]
+   str r3, [r2]
+   add r0, r0, 4
+   add r2, r2, 4
+   add r1, r1, 4
+   cmp r1, #bl_abs_st_len
+   bcc copy_loop
+   LDMFD SP!, {R1-R3,PC}
+
+align 4
+bl_abs_st:
+irom_rev_str		db 32 dup 0
+mirror_copy_start	dw 0
+init_vars_size		dw 0
+upload_ep_ptr		dw 0
+init_vars_start 	dw 0
+uart_reg		dw 0
+otg_info		dw 0
+v_init_system		dw 0
+v_start_usb_booting	dw 0
+v_system_pause		dw 0
+v_debug_print_irom	dw 0
+v_debug_print_byte_irom dw 0
+
+bl_abs_st_end:
+BL_abs_ptr dw bl_abs_st
+bl_abs_st_len = bl_abs_st_end - bl_abs_st
+
+
+   init_system: 	   ldr pc, [v_init_system]
+   start_usb_booting:	   ldr pc, [v_start_usb_booting]
+   system_pause:	   ldr pc, [v_system_pause]
+   debug_print_irom:	   ldr pc, [v_debug_print_irom]
+   debug_print_byte_irom:  ldr pc, [v_debug_print_byte_irom]
 
 
 jump_to_sgs_ibl:
@@ -188,14 +260,12 @@ FUNCTIONS
 
 align 4
 
-fillup2:
-db 0x4000 - (fillup2-c_start) dup 0
+db 0x4000 - ($-c_start) dup 0
 sgs_ibl_stage2:
 file 'init_by_rebell.bin'
 
 
-fillup4:
-db 0x6000 - (fillup4-c_start) dup 0
+db 0x6000 - ($-c_start) dup 0
 
 
 
