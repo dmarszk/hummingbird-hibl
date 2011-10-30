@@ -65,54 +65,61 @@ public class LowLevelUnbrickOneClickView extends FrameView {
     
 
     
-    final public static String DebugMode="resources/DebugMode.jpg";
-    final public static String S5PC110="resources/S5PC110.jpg";
+    final public static String DebugMode="resources/images/DebugMode.jpg";
+    final public static String S5PC110="resources/images/S5PC110.jpg";
     final public static String DeviceNotFound="resources/images/UnbrickableApp.png";
-    final public static String DownloadMode="resources/DownloadMode.jpg";
-    final public static String MassStorage="resources/MassStorage.jpg";
-    final public static String MediaPlayer="resources/MediaPlayer.jpeg";
-    final public static String SamsungKies="resources/SamsungKies.jpg";
+    final public static String DownloadMode="resources/images/DownloadMode.jpg";
+    final public static String MassStorage="resources/images/MassStorage.jpg";
+    final public static String MediaPlayer="resources/images/MediaPlayer.jpeg";
+    final public static String SamsungKies="resources/images/SamsungKies.jpg";
  
     Timer monitoringTimer = new Timer(QUARTER_SECOND, new ActionListener() {
+        
         public void actionPerformed(ActionEvent evt) {
+            
             String Result= ShellCommand.silentShellCommand(new String[] {"lsusb"});
             if (Result.contains("04e8:1234")){
-               jLabel2.setText("S5PC110");
-               jLabel3.setText("UnBrickable Debug");
+               jLabel2.setText("S5PC110 detected");
+               jLabel3.setText("Button Enabled- Upload Download Mode now");
                jLabel1.setIcon(createImageIcon(S5PC110, "S5PC110 Mode"));
-            } else if (Result.contains("04e8:6601")){
-               jLabel1.setIcon(createImageIcon(DownloadMode, "Download Mode."));
-               jLabel2.setText("Download Mode");
-               jLabel3.setText("Start Firmware Download");
-            } else if (Result.contains("04e8:6877")){
-               jLabel1.setIcon(createImageIcon(SamsungKies, "Samsung Kies."));
-               jLabel2.setText("Samsung Kies");
-               jLabel3.setText("Kies Mode detected");
-            } else if (Result.contains("04e8:68a9")){
-               jLabel1.setIcon(createImageIcon(MediaPlayer, "Media Player."));
-               jLabel2.setText("Media Player");
-               jLabel3.setText("Samsung Media Player");
-            } else if (Result.contains("04e8:681d")){
-               jLabel1.setIcon(createImageIcon(MassStorage, "Mass Storage."));
-               jLabel3.setText("Mass storage device");
-               jLabel2.setText("Mass Storage");
-            } else if (Result.contains("04e8:681c")){
-               jLabel1.setIcon(createImageIcon(DebugMode, "Debug Mode."));
-               jLabel3.setText("ADB is operational");
-               jLabel2.setText("Debug Mode");
-            } else if (Result.contains("04e8:684e")){
-               jLabel1.setIcon(createImageIcon(DeviceNotFound, "Samsung GMO Modem"));
-               jLabel3.setText("Samsung GMO Modem");
-               jLabel2.setText("Debug Mode");
-            } else if (Result.contains("18d1:4e20")){
-               jLabel1.setIcon(createImageIcon(DeviceNotFound, "Fastboot"));
-               jLabel3.setText("Fastboot");
-               jLabel2.setText("Fastboot mode");
+               jButton2.setEnabled(true);
             } else {
-               jLabel1.setIcon(createImageIcon(DeviceNotFound, "The device is connected."));
-               jLabel3.setText("No device detected");
-               jLabel2.setText("Device not found");
+               jButton2.setEnabled(false);
+                if (Result.contains("04e8:6601")){
+                   jLabel1.setIcon(createImageIcon(DownloadMode, "Download Mode."));
+                   jLabel2.setText("Download Mode");
+                   jLabel3.setText("Start Firmware Download");
+                } else if (Result.contains("04e8:6877")){
+                   jLabel1.setIcon(createImageIcon(SamsungKies, "Samsung Kies."));
+                   jLabel2.setText("Samsung Kies");
+                   jLabel3.setText("Kies Mode detected");
+                } else if (Result.contains("04e8:68a9")){
+                   jLabel1.setIcon(createImageIcon(MediaPlayer, "Media Player."));
+                   jLabel2.setText("Media Player");
+                   jLabel3.setText("Samsung Media Player");
+                } else if (Result.contains("04e8:681d")){
+                   jLabel1.setIcon(createImageIcon(MassStorage, "Mass Storage."));
+                   jLabel3.setText("Mass storage device");
+                   jLabel2.setText("Mass Storage");
+                } else if (Result.contains("04e8:681c")){
+                   jLabel1.setIcon(createImageIcon(DebugMode, "Debug Mode."));
+                   jLabel3.setText("ADB is operational");
+                   jLabel2.setText("Debug Mode");
+                } else if (Result.contains("04e8:684e")){
+                   jLabel1.setIcon(createImageIcon(DeviceNotFound, "Samsung GMO Modem"));
+                   jLabel3.setText("Samsung GMO Modem");
+                   jLabel2.setText("Debug Mode");
+                } else if (Result.contains("18d1:4e20")){
+                   jLabel1.setIcon(createImageIcon(DeviceNotFound, "Fastboot"));
+                   jLabel3.setText("Fastboot");
+                   jLabel2.setText("Fastboot mode");
+                } else {
+                   jLabel1.setIcon(createImageIcon(DeviceNotFound, "The device is connected."));
+                   jLabel3.setText("No device detected");
+                   jLabel2.setText("Device not found");
+                }
             }
+
             monitoringTimer.start();
         }
     });
@@ -159,7 +166,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
         jLabel3 = new javax.swing.JLabel();
 
         mainPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        mainPanel.setMinimumSize(null);
+        mainPanel.setMinimumSize(new java.awt.Dimension(651, 450));
         mainPanel.setName("mainPanel"); // NOI18N
         mainPanel.setOpaque(false);
         mainPanel.setPreferredSize(new java.awt.Dimension(651, 520));
@@ -214,34 +221,36 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                 .addComponent(ConnectedLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(35, 35, 35))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE))
-                        .addContainerGap())
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE))
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                .addContainerGap(564, Short.MAX_VALUE)
+                .addComponent(ConnectedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
+            .addGroup(mainPanelLayout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ConnectedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                .addComponent(jButton2)
                 .addContainerGap())
         );
 
