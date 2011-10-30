@@ -20,6 +20,10 @@
  */
 package com.AdamOutler.LowLevelUnBrick;
 
+
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,16 +32,26 @@ import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.FrameView;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
-
+import java.awt.Color;
+import org.jdesktop.application.ResourceMap;
+import org.jdesktop.application.SingleFrameApplication;
+import org.jdesktop.application.FrameView;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 /**
  * The application's main frame.
  */
 public class LowLevelUnbrickOneClickView extends FrameView {
+    private static Shell ShellCommand=new Shell();
     FileOperations fileOperations = new FileOperations();
     /**
      * 250ms
      */
-    public final static int QUARTER_SECOND = 250;
+    private final int QUARTER_SECOND = 250; //ms
     /**
      * 1000ms
      */
@@ -47,11 +61,72 @@ public class LowLevelUnbrickOneClickView extends FrameView {
    
     
     Log Log = new Log();
-    Shell ShellCommand = new Shell();
+
     
 
     
-  
+    final public static String DebugMode="resources/DebugMode.jpg";
+    final public static String S5PC110="resources/S5PC110.jpg";
+    final public static String DeviceNotFound="resources/images/UnbrickableApp.png";
+    final public static String DownloadMode="resources/DownloadMode.jpg";
+    final public static String MassStorage="resources/MassStorage.jpg";
+    final public static String MediaPlayer="resources/MediaPlayer.jpeg";
+    final public static String SamsungKies="resources/SamsungKies.jpg";
+ 
+    Timer monitoringTimer = new Timer(QUARTER_SECOND, new ActionListener() {
+        public void actionPerformed(ActionEvent evt) {
+            String Result= ShellCommand.silentShellCommand(new String[] {"lsusb"});
+            if (Result.contains("04e8:1234")){
+               jLabel2.setText("S5PC110");
+               jLabel3.setText("UnBrickable Debug");
+               jLabel1.setIcon(createImageIcon(S5PC110, "S5PC110 Mode"));
+            } else if (Result.contains("04e8:6601")){
+               jLabel1.setIcon(createImageIcon(DownloadMode, "Download Mode."));
+               jLabel2.setText("Download Mode");
+               jLabel3.setText("Start Firmware Download");
+            } else if (Result.contains("04e8:6877")){
+               jLabel1.setIcon(createImageIcon(SamsungKies, "Samsung Kies."));
+               jLabel2.setText("Samsung Kies");
+               jLabel3.setText("Kies Mode detected");
+            } else if (Result.contains("04e8:68a9")){
+               jLabel1.setIcon(createImageIcon(MediaPlayer, "Media Player."));
+               jLabel2.setText("Media Player");
+               jLabel3.setText("Samsung Media Player");
+            } else if (Result.contains("04e8:681d")){
+               jLabel1.setIcon(createImageIcon(MassStorage, "Mass Storage."));
+               jLabel3.setText("Mass storage device");
+               jLabel2.setText("Mass Storage");
+            } else if (Result.contains("04e8:681c")){
+               jLabel1.setIcon(createImageIcon(DebugMode, "Debug Mode."));
+               jLabel3.setText("ADB is operational");
+               jLabel2.setText("Debug Mode");
+            } else if (Result.contains("04e8:684e")){
+               jLabel1.setIcon(createImageIcon(DeviceNotFound, "Samsung GMO Modem"));
+               jLabel3.setText("Samsung GMO Modem");
+               jLabel2.setText("Debug Mode");
+            } else if (Result.contains("18d1:4e20")){
+               jLabel1.setIcon(createImageIcon(DeviceNotFound, "Fastboot"));
+               jLabel3.setText("Fastboot");
+               jLabel2.setText("Fastboot mode");
+            } else {
+               jLabel1.setIcon(createImageIcon(DeviceNotFound, "The device is connected."));
+               jLabel3.setText("No device detected");
+               jLabel2.setText("Device not found");
+            }
+            monitoringTimer.start();
+        }
+    });
+    
+    protected ImageIcon createImageIcon(String path, String description) {
+        java.net.URL imgURL = getClass().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL, description);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
+    }
+
 
     
     public LowLevelUnbrickOneClickView(SingleFrameApplication app, boolean UseTGZFormat) {
@@ -59,6 +134,8 @@ public class LowLevelUnbrickOneClickView extends FrameView {
         Statics.UseTGZFormat=UseTGZFormat;
         initComponents();
         this.getFrame().setTitle("Ultimate UnBrickable Resurrector- Galaxy Edition"); 
+        monitoringTimer.start();
+       
     }
     
     /**
@@ -78,9 +155,11 @@ public class LowLevelUnbrickOneClickView extends FrameView {
         jTextArea2 = new javax.swing.JTextArea();
         ConnectedLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         mainPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        mainPanel.setMinimumSize(new java.awt.Dimension(650, 650));
+        mainPanel.setMinimumSize(null);
         mainPanel.setName("mainPanel"); // NOI18N
         mainPanel.setOpaque(false);
         mainPanel.setPreferredSize(new java.awt.Dimension(651, 520));
@@ -120,29 +199,49 @@ public class LowLevelUnbrickOneClickView extends FrameView {
         jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
         jLabel1.setName("jLabel1"); // NOI18N
 
+        jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
+        jLabel2.setName("jLabel2"); // NOI18N
+
+        jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
+        jLabel3.setName("jLabel3"); // NOI18N
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+            .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ConnectedLabel)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 639, Short.MAX_VALUE))
+                        .addContainerGap())))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ConnectedLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                    .addComponent(ConnectedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
                 .addContainerGap())
         );
 
@@ -248,23 +347,15 @@ public class LowLevelUnbrickOneClickView extends FrameView {
      * @param description
      * @return
      */
-    protected ImageIcon createImageIcon(String path, String description) {
-        java.net.URL imgURL = getClass().getResource(path);
-        if (imgURL != null) {
-            return new ImageIcon(imgURL, description);
-        } else {
-            System.err.println("Couldn't find file: " + path);
-            return null;
-        }
-    }
-
-
+    
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ConnectedLabel;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JTextArea jTextArea2;
     private javax.swing.JPanel mainPanel;
