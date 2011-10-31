@@ -91,7 +91,7 @@ public class Shell implements Runnable{
                 AllText=AllText+"\n"+line;
             }   
         }
-        log.level0(cmd[0]+"\":"+AllText);
+        //log.level0(cmd[0]+"\":"+AllText);
         return AllText;
     } catch (IOException ex) {
               log.level2("Problem while executing"+ arrayToString(cmd)+
@@ -141,47 +141,49 @@ public class Shell implements Runnable{
      
      
  }
-     
-     
-     
-     
 
  public void liveShellCommand(){
-    try {  
-        String[] params = (String[]) Statics.LiveSendCommand.toArray(new String[0]);  
-        Process process = new ProcessBuilder(params).start();
-        BufferedReader STDOUT = new BufferedReader( new InputStreamReader(process.getInputStream()));
-        BufferedReader STDERR = new BufferedReader( new InputStreamReader(process.getErrorStream()));
-        String LineRead =null;   
-        String CharRead = null;
-        boolean ResetLine=false;
-        int c;
-        while( (c = STDOUT.read()) >-1) {   
-            if (ResetLine){
-                log.beginLine();
-                ResetLine=!ResetLine;
+
+ 
+ Runnable r = new Runnable(){
+     public void run(){
+        try {  
+            String[] params = (String[]) Statics.LiveSendCommand.toArray(new String[0]);  
+            Process process = new ProcessBuilder(params).start();
+            BufferedReader STDOUT = new BufferedReader( new InputStreamReader(process.getInputStream()));
+            BufferedReader STDERR = new BufferedReader( new InputStreamReader(process.getErrorStream()));
+            String LineRead =null;   
+            String CharRead = null;
+            boolean ResetLine=false;
+            int c;
+            while( (c = STDOUT.read()) >-1) {   
+                if (ResetLine){
+                    log.beginLine();
+                    ResetLine=!ResetLine;
+                }
+                CharRead=Character.toString((char)c);
+                LineRead=LineRead+CharRead;
+                log.progress(CharRead);
             }
-            CharRead=Character.toString((char)c);
-            LineRead=LineRead+CharRead;
-            log.progress(CharRead);
+            while ((LineRead=STDERR.readLine()) != null){
+                log.progress(LineRead);
+            }
+
+        } catch (IOException ex) {
+                    String[] ArrayList =(String[])Statics.LiveSendCommand.toArray();
+                    log.level2("Problem while executing"+ ArrayList + 
+                            " in Shell.liveShellCommand()");
+            Logger.getLogger(Shell.class.getName()).log(Level.SEVERE, null, ex);
         }
-        while ((LineRead=STDERR.readLine()) != null){
-            log.progress(LineRead);
-        }
-    
-    } catch (IOException ex) {
-                String[] ArrayList =(String[])Statics.LiveSendCommand.toArray();
-                log.level2("Problem while executing"+ ArrayList + 
-                        " in Shell.liveShellCommand()");
-        Logger.getLogger(Shell.class.getName()).log(Level.SEVERE, null, ex);
-    }
+     }
+   };
+   Thread t = new Thread(r);
+   t.start();
  }
 
     public void run() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-   
  
    
    
