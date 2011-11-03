@@ -75,9 +75,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                jLabel2.setText("S5PC110 detected");
                jLabel3.setText("Button Enabled- Upload Download Mode now");
                jLabel1.setIcon(createImageIcon(S5PC110, "S5PC110 Mode"));
-               jButton2.setEnabled(true);
             } else {
-               jButton2.setEnabled(false);
                 if (Result.contains("04e8:6601")){
                    jLabel1.setIcon(createImageIcon(DownloadMode, "Download Mode."));
                    jLabel2.setText("Download Mode");
@@ -242,9 +240,6 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ConnectedLabel)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
@@ -257,6 +252,9 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         mainPanelLayout.setVerticalGroup(
@@ -270,7 +268,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
