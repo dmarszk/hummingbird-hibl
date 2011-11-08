@@ -68,6 +68,16 @@ ptrsloaded:
 	LDR  R0, [irom_rev_str_a]
 	BL   debug_print
 
+
+	MOV  R0, 0xA
+	BL   debug_print_byte
+	LDR  R0, [s_detected_irom_a]
+	BL   debug_print
+	LDR  R0, [OM_REG]
+	LDR  R0, [R0]
+	BL   printhexint
+
+
 	MOV  R0, 0xA
 	BL   debug_print_byte
 
@@ -133,6 +143,8 @@ ptrsloaded:
 	BL   start_usb_booting
 	MOV  R3, R0
 	BL   printhexint
+	MOV  R0, 0xA
+	BL   debug_print_byte
 	MOV  R0, R3
 	CMP  R0, 0
 	BNE  fail
@@ -173,14 +185,16 @@ s_failed_a	dw s_failed
 s_bl3start_a	dw s_bl3start
 s_done_a	dw s_done
 s_detected_irom_a dw s_detected_irom
+s_om_value_a	  dw s_om_value
 
 s_welcome db 0xA,\
 '-------------------------------------------------------------',0xA,\
-'   Hummingbird Interceptor Boot Loader (HIBL) v2.0',0xA,\
+'   Hummingbird Interceptor Boot Loader (HIBL) v2.1',0xA,\
 '   Copyright (C) Rebellos 2011',0xA,\
 '-------------------------------------------------------------',0xA,0x0
 
 s_detected_irom db 'Detected iROM version: ',0x0
+s_om_value db 'OM register: ',0x0
 s_bl3_ep db 'BL3 EP: ',0x0
 s_ibl_jumpout db 'Calling IBL Stage2',0x0
 s_iram_init db 'iRAM reinit',0x0
@@ -195,6 +209,7 @@ align 4
 
 BL3_memblock	  dw 0x40200000
 ram_test_magic1   dw 0x12349876
+OM_REG		  dw 0xE010E100
 
 magic_determ_location	dw 0xD0000100
 
