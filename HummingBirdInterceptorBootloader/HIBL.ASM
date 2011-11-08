@@ -71,7 +71,7 @@ ptrsloaded:
 
 	MOV  R0, 0xA
 	BL   debug_print_byte
-	LDR  R0, [s_detected_irom_a]
+	LDR  R0, [s_om_value_a]
 	BL   debug_print
 	LDR  R0, [OM_REG]
 	LDR  R0, [R0]
