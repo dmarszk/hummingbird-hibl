@@ -250,8 +250,8 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                         .addGap(12, 12, 12))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                         .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
@@ -314,7 +314,8 @@ public class LowLevelUnbrickOneClickView extends FrameView {
             String Command = SMDK +" -f " + Statics.TempFolder+"UnBrickPack"+
                     Statics.Slash+"HIBL.bin -a D0020000;\n test $? && echo  \\\\n Interceptor Injection Complete.  Injecting modified SBL\\\\n\\\\n||echo Interceptor Injection Failure!!!\\\\n\\\\n;\n  sleep 3;\n"
                     + SMDK +" -f " + Statics.TempFolder+"UnBrickPack"+
-                    Statics.Slash+"Sbl.bin -a 40244000";
+                    Statics.Slash+"Sbl.bin -a 40244000;\n"+
+                    "test $? = 0 && echo \"Modified SBL Injection Completed Download Mode Activated\"|| echo \"SBL Injection Failure\"";
             if (FileOperations.verifyFileExists(Statics.TempFolder+"Script.sh")){
                 Log.level1("Clearing Previous Instance");
                 FileOperations.deleteFile(Statics.TempFolder+"Script.sh");
@@ -328,10 +329,12 @@ public class LowLevelUnbrickOneClickView extends FrameView {
             }
             Log.level1("Requesting Permission to access device");
             Log.level0("\n Please wait.... Uploading..");
-            Log.level0("-------------------------------------------------------------\n Hummingbird Interceptor Boot Loader (HIBL) v2.0\n Copyright (C) Rebellos 2011\n-------------------------------------------------------------\n");
+            Log.level0("-------------------------------------------------------------\n Hummingbird Interceptor Boot Loader (HIBL) v2.1\n Copyright (C) Rebellos 2011\n-------------------------------------------------------------\n");
 
             Statics.LiveSendCommand=new ArrayList();
             Statics.LiveSendCommand.add("gksudo");
+            Statics.LiveSendCommand.add("-D"); 
+            Statics.LiveSendCommand.add("UnBrickable Resurrector");
             Statics.LiveSendCommand.add(Statics.TempFolder+"Script.sh");
             FileOperations.setExecutableBit(Statics.TempFolder+"Script.sh");
             Shell.liveShellCommand();
@@ -361,7 +364,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        LinkLauncher LinkLauncher = new LinkLauncher();
-       LinkLauncher.launchLink("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6LPHJBF33CA4W");
+       LinkLauncher.launchLink("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YYAWENUMGYWU2");
     }//GEN-LAST:event_jButton1ActionPerformed
   
     public void enableButtons(boolean State){
@@ -371,25 +374,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
         LinkLauncher LinkLauncher=new LinkLauncher();
         LinkLauncher.launchLink(Link);
     }
-    public static void showDonateLink(){
-        TimeOutOptionPane timeOutOptionPane = new TimeOutOptionPane();
-            int DResult= timeOutOptionPane.showTimeoutDialog(
-                 5, //timeout
-                 null, //parentComponent
-                 "Would you like to make a donation?\n"
-                 + "Donations give developers a tangeble reason to continue quality software development\n",
-                 "Donate to the developers",  //DisplayTitle
-                 TimeOutOptionPane.OK_OPTION, // Options buttons
-                 TimeOutOptionPane.INFORMATION_MESSAGE, //Icon
-                 new String[]{"Donate To AdamOutler", "No"}, // option buttons
-                 "No"); //Default{
-            if ( DResult == 1 ){
-                launchLink("http://forum.xda-developers.com/donatetome.php?u=2710388");
-            } else if (DResult == 2){
-                launchLink("http://forum.xda-developers.com/donatetome.php?u=3682533");
-            } else if (DResult == 3){
-            }
-    }
+ 
     
   
     /**

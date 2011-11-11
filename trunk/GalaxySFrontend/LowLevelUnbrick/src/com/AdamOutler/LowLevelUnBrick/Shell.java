@@ -144,9 +144,10 @@ public class Shell implements Runnable{
 
  public void liveShellCommand(){
 
- 
+
  Runnable r = new Runnable(){
      public void run(){
+        boolean LinkLaunched = false;
         try {  
             String[] params = (String[]) Statics.LiveSendCommand.toArray(new String[0]);  
             Process process = new ProcessBuilder(params).start();
@@ -164,6 +165,24 @@ public class Shell implements Runnable{
                 CharRead=Character.toString((char)c);
                 LineRead=LineRead+CharRead;
                 log.progress(CharRead);
+                if ((! LinkLaunched)&&(LineRead.contains("Modified SBL Injection Completed Download Mode Activated"))){
+                    LinkLaunched=true;
+                    TimeOutOptionPane timeOutOptionPane = new TimeOutOptionPane();
+                    int DResult= timeOutOptionPane.showTimeoutDialog(
+                         15, //timeout
+                         null, //parentComponent
+                         "Would you like to make a donation to further development?\n"+
+                         "Donations help developers justify time spent on projects "
+                            + "to their wives :).", 
+                         "Sucess Detected",//DisplayTitle
+                         TimeOutOptionPane.OK_OPTION, // Options buttons
+                         TimeOutOptionPane.INFORMATION_MESSAGE, //Icon
+                         new String[]{"Donate", "No"}, // option buttons
+                         "No"); //Default{
+                    if ( DResult == 0 ){
+                        launchLink("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YYAWENUMGYWU2");
+                    }
+                }
             }
             while ((LineRead=STDERR.readLine()) != null){
                 log.progress(LineRead);
@@ -180,7 +199,10 @@ public class Shell implements Runnable{
    Thread t = new Thread(r);
    t.start();
  }
-
+    private static void launchLink(String Link){
+        LinkLauncher LinkLauncher=new LinkLauncher();
+        LinkLauncher.launchLink(Link);
+    }
     public void run() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
