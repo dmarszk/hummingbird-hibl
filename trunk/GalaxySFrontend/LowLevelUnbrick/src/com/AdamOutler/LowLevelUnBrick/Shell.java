@@ -169,18 +169,17 @@ public class Shell implements Runnable{
                     LinkLaunched=true;
                     TimeOutOptionPane timeOutOptionPane = new TimeOutOptionPane();
                     int DResult= timeOutOptionPane.showTimeoutDialog(
-                         15, //timeout
+                         7, //timeout
                          null, //parentComponent
-                         "Would you like to make a donation to further development?\n"+
+                         "Don't forget to use the donate button.\n"+
                          "Donations help developers justify time spent on projects "
                             + "to their wives :).", 
-                         "Sucess Detected",//DisplayTitle
+                         "Succes!s",//DisplayTitle
                          TimeOutOptionPane.OK_OPTION, // Options buttons
                          TimeOutOptionPane.INFORMATION_MESSAGE, //Icon
-                         new String[]{"Donate", "No"}, // option buttons
+                         new String[]{"OK"}, // option buttons
                          "No"); //Default{
                     if ( DResult == 0 ){
-                        launchLink("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YYAWENUMGYWU2");
                     }
                 }
             }
@@ -199,13 +198,9 @@ public class Shell implements Runnable{
    Thread t = new Thread(r);
    t.start();
  }
-    private static void launchLink(String Link){
-        LinkLauncher LinkLauncher=new LinkLauncher();
-        LinkLauncher.launchLink(Link);
-    }
-    public void run() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+ public void run() {
+     throw new UnsupportedOperationException("Not supported yet.");
+ }
  
    
    
