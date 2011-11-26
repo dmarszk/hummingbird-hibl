@@ -39,9 +39,9 @@ public class Statics {
     }    
 
     /*increase or decrease the logging level*/
-    public static int ConsoleLevel=1; //userdata is output to console
+    public static int ConsoleLevel=2; //userdata is output to console
     /*increase or decrease the logging level*/
-    public static int LogLevel=4; //all logs are output to file
+    public static int LogLevel=2; //all logs are output to file
        
     /*
      * miscellanious variables

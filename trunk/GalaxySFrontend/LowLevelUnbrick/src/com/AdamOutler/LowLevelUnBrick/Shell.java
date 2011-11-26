@@ -73,7 +73,7 @@ public class Shell implements Runnable{
   
   
  public String sendShellCommand(String[] cmd){
-     log.level2("\n###executing: "+ cmd[0]+ "###");
+     log.level3("\n###executing: "+ cmd[0]+ "###");
      String AllText="";   
      try {
         String line;
