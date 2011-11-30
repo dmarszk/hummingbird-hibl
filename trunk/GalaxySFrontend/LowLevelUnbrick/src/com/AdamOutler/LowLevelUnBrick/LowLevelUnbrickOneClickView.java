@@ -58,6 +58,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
     final public static String MassStorage = "resources/images/MassStorage.jpg";
     final public static String MediaPlayer = "resources/images/MediaPlayer.jpeg";
     final public static String SamsungKies = "resources/images/SamsungKies.jpg";
+    final public static String TexasInstruments = "resources/images/TI.jpg";
     Timer monitoringTimer = new Timer(QUARTER_SECOND, new ActionListener() {
 
         public void actionPerformed(ActionEvent evt) {
@@ -96,6 +97,10 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                     jLabel1.setIcon(createImageIcon(DeviceNotFound, "Fastboot"));
                     jLabel3.setText("Fastboot");
                     jLabel2.setText("Fastboot mode");
+                } else if (Result.contains("0451:d00e")) {
+                    jLabel1.setIcon(createImageIcon(TexasInstruments, "Texas Instruments"));
+                    jLabel3.setText("TI USB");
+                    jLabel2.setText("Unnown 0451:d00e TI debug mode");
                 } else {
                     jLabel1.setIcon(createImageIcon(DeviceNotFound, "The device is connected."));
                     jLabel3.setText("No device detected");
@@ -236,7 +241,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jComboBox1, 0, 193, Short.MAX_VALUE)
+                .addComponent(jComboBox1, 0, 205, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -262,19 +267,17 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                         .addComponent(ConnectedLabel)
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(mainPanelLayout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(3, 3, 3))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE))
-                        .addGap(3, 3, 3))
+                        .addGap(37, 37, 37))
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel1)
-                        .addGap(19, 19, 19))))
+                        .addGap(53, 53, 53))))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
