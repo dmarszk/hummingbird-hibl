@@ -49,6 +49,15 @@ _fiq:
 ;endof ARM core handlers
 
 StartUp:
+
+	LDR  R1, [PSHOLD_SFR]
+	LDR  R0, [R1]
+	ORR  R0, R0, 0x300
+	ORR  R0, R0, 1
+	STR  R0, [R1]
+	LDR  R1, [WDOG_CTRL_SFR]
+	MOV  R0, 0
+	STR  R0, [R1]
 	LDR  R0, [magic_determ_location]
 	LDR  R0, [R0]
 	LDR  R1, [infuse_magic]
@@ -189,7 +198,7 @@ s_om_value_a	  dw s_om_value
 
 s_welcome db 0xA,\
 '-------------------------------------------------------------',0xA,\
-'   Hummingbird Interceptor Boot Loader (HIBL) v2.1',0xA,\
+'   Hummingbird Interceptor Boot Loader (HIBL) v2.3',0xA,\
 '   Copyright (C) Rebellos 2011',0xA,\
 '-------------------------------------------------------------',0xA,0x0
 
@@ -210,6 +219,8 @@ align 4
 BL3_memblock	  dw 0x40200000
 ram_test_magic1   dw 0x12349876
 OM_REG		  dw 0xE010E100
+PSHOLD_SFR	  dw 0xE010E81C
+WDOG_CTRL_SFR	  dw 0xE2700000
 
 magic_determ_location	dw 0xD0000100
 
