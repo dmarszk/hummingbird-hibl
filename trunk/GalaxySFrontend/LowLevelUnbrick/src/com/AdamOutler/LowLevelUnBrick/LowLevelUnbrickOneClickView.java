@@ -89,6 +89,10 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                     jLabel1.setIcon(createImageIcon(DebugMode, "Debug Mode."));
                     jLabel3.setText("Android Debug Bridge");
                     jLabel2.setText("Debug Mode Detected");
+                } else if (Result.contains("04e8:685e")) {
+                    jLabel1.setIcon(createImageIcon(DebugMode, "Debug Mode."));
+                    jLabel3.setText("Android Debug Bridge");
+                    jLabel2.setText("Debug Mode Detected");
                 } else if (Result.contains("04e8:684e")) {
                     jLabel1.setIcon(createImageIcon(DeviceNotFound, "Samsung GMO Modem"));
                     jLabel3.setText("Samsung GMO Modem");
