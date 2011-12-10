@@ -68,7 +68,7 @@
 
     -->
     <target name="-post-jar">
-        <jar jarfile="dist/UltimateUnBrickResurrector.jar">
+        <jar jarfile="dist/UnBrickableResurrectorR36.jar">
             <zipfileset src="${dist.jar}" excludes="META-INF/*" />
             <zipfileset src="dist/lib/appframework-1.0.3.jar" excludes="META-INF/*" />
             <zipfileset src="dist/lib/commons-compress-1.1.jar" excludes="META-INF/*" />
