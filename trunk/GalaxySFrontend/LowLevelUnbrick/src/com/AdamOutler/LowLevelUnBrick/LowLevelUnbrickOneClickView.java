@@ -53,6 +53,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
     Log Log = new Log();
     final public static String DebugMode = "resources/images/DebugMode.jpg";
     final public static String S5PC110 = "resources/images/S5PC110.jpg";
+    final public static String Fastboot = "resources/images/fastboot.jpg";
     final public static String DeviceNotFound = "resources/images/Unbrickable.png";
     final public static String DownloadMode = "resources/images/DownloadMode.jpg";
     final public static String MassStorage = "resources/images/MassStorage.jpg";
@@ -98,7 +99,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                     jLabel3.setText("Samsung GMO Modem");
                     jLabel2.setText("Debug Mode");
                 } else if (Result.contains("18d1:4e20")) {
-                    jLabel1.setIcon(createImageIcon(DeviceNotFound, "Fastboot"));
+                    jLabel1.setIcon(createImageIcon(Fastboot, "Fastboot"));
                     jLabel3.setText("Fastboot");
                     jLabel2.setText("Fastboot mode");
                 } else if (Result.contains("0451:d00e")) {
