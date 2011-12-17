@@ -124,7 +124,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
         Dimension RecSize = new Dimension(635, 600);
         this.getFrame().setMinimumSize(MinSize);
         this.getFrame().setSize(RecSize);
-        this.getFrame().setTitle("UnBrickable Resurrector- Revision36");
+        this.getFrame().setTitle("UnBrickable Resurrector- Revision37");
         Statics Statics = new Statics();
         if (Statics.isLinux()) {
             monitoringTimer.start();
@@ -399,8 +399,12 @@ public class LowLevelUnbrickOneClickView extends FrameView {
         LinkLauncher.launchLink("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YYAWENUMGYWU2");
     }//GEN-LAST:event_jButton1ActionPerformed
     private String[][] ResurrectorsDB = {
+        //Name     Friendly     Tool    initial     init mem    secondary  secondary mem
         {"S5PC110 (Galaxy S)", "SMDK", "HIBL.bin", "D0020000", "Sbl.bin", "40244000"},
-        {"S5PC111 (Galaxy Player)", "SMDK", "HIBL.bin", "D0020000", "GPSbl.bin", "40244000"}};
+        {"S5PC110 (Nexus S)", "SMDK", "HIBL.bin", "D0020000", "nexus_sbl.bin", "33040000"},
+        {"S5PC111 (Galaxy Player)", "SMDK", "HIBL.bin", "D0020000", "GPSbl.bin", "40244000"}
+
+    };
     private String DeviceName="";
     private String Interface="";
     private String InitialBootloader="";
