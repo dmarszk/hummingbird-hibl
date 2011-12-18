@@ -125,7 +125,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
         Dimension RecSize = new Dimension(635, 600);
         this.getFrame().setMinimumSize(MinSize);
         this.getFrame().setSize(RecSize);
-        this.getFrame().setTitle("UnBrickable Resurrector- Revision39");
+        this.getFrame().setTitle("UnBrickable Resurrector- Revision40");
         Statics Statics = new Statics();
         if (Statics.isLinux()) {
             monitoringTimer.start();
