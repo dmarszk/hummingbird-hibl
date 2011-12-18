@@ -125,7 +125,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
         Dimension RecSize = new Dimension(635, 600);
         this.getFrame().setMinimumSize(MinSize);
         this.getFrame().setSize(RecSize);
-        this.getFrame().setTitle("UnBrickable Resurrector- Revision37");
+        this.getFrame().setTitle("UnBrickable Resurrector- Revision39");
         Statics Statics = new Statics();
         if (Statics.isLinux()) {
             monitoringTimer.start();
@@ -246,7 +246,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jComboBox1, 0, 180, Short.MAX_VALUE)
+                .addComponent(jComboBox1, 0, 198, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -280,7 +280,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                         .addComponent(ConnectedLabel)
                         .addGap(5, 5, 5)
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 596, Short.MAX_VALUE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(17, 17, 17))
         );
@@ -298,7 +298,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                         .addComponent(ConnectedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(56, 56, 56))
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
@@ -337,16 +337,19 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                 } else {
                     Log.level3("Error: Could not Set Executable Bit " + SMDK);
                 }
+                
+                if (FileOperations.verifyFileExists(Statics.TempFolder + "Script.sh")) {
+                    Log.level1("Clearing Previous Instance");
+                    FileOperations.deleteFile(Statics.TempFolder + "Script.sh");
+                }
+                
                 Log.level1("Building command list");
                 String Command = SMDK + " -f " + Statics.TempFolder + "UnBrickPack"
                         + Statics.Slash + InitialBootloader+" -a "+InitialMemoryLocation+";\n test $? && echo  \\\\n Interceptor Injection Complete.  Injecting modified SBL\\\\n\\\\n||echo Interceptor Injection Failure!!!\\\\n\\\\n;\n  sleep 3;\n"
                         + SMDK + " -f " + Statics.TempFolder + "UnBrickPack"
                         + Statics.Slash + SecondaryBootloader+" -a " +SecondaryMemoryLocation+";\n"
                         + "test $? = 0 && echo \"Modified SBL Injection Completed Download Mode Activated\"|| echo \"SBL Injection Failure\"";
-                if (FileOperations.verifyFileExists(Statics.TempFolder + "Script.sh")) {
-                    Log.level1("Clearing Previous Instance");
-                    FileOperations.deleteFile(Statics.TempFolder + "Script.sh");
-                }
+
                 try {
                     FileOperations.writeToFile(Command, Statics.TempFolder + "Script.sh");
                 } catch (IOException ex) {
@@ -399,11 +402,22 @@ public class LowLevelUnbrickOneClickView extends FrameView {
         LinkLauncher LinkLauncher = new LinkLauncher();
         LinkLauncher.launchLink("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YYAWENUMGYWU2");
     }//GEN-LAST:event_jButton1ActionPerformed
+    
+    private String GalaxyInstructions = "1. Apply UnBrickable Mod\n"
+        + "2. Remove then insert Device battery\n"
+        + "3. Connect to computer via USB.\n"
+        + "4. Click the Download Mode button\n"
+        + "5. Download new software with Heimdall.\n ";
+    private String NexusSInstructions = "1. Apply UnBrickable Mod\n"
+        + "2. Remove then insert Device battery\n"
+        + "3. Connect to computer via USB.\n"
+        + "4. Click the Download Mode button while holding button combination\n"
+        + "5. Download new software with fastboot for Linux.\n ";
     private String[][] ResurrectorsDB = {
         //Name     Friendly     Tool    initial     init mem    secondary  secondary mem
-        {"S5PC110 (Galaxy S)", "SMDK", "HIBL.bin", "D0020000", "Sbl.bin", "40244000"},
-        {"S5PC110 (Nexus S)", "SMDK", "HIBL.bin", "D0020000", "nexus_sbl.bin", "33040000"},
-        {"S5PC111 (Galaxy Player)", "SMDK", "HIBL.bin", "D0020000", "GPSbl.bin", "40244000"}
+        {"S5PC110 (Galaxy S)", "SMDK", "HIBL.bin", "D0020000", "Sbl.bin", "40244000", GalaxyInstructions},
+        {"S5PC110 (Nexus S)", "SMDK", "HIBL.bin", "D0020000", "nexus_sbl.bin", "33040000", NexusSInstructions},
+        {"S5PC111 (Galaxy Player)", "SMDK", "HIBL.bin", "D0020000", "GPSbl.bin", "40244000", GalaxyInstructions}
 
     };
     private String DeviceName="";
@@ -412,7 +426,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
     private String InitialMemoryLocation="";
     private String SecondaryBootloader="";
     private String SecondaryMemoryLocation="";
-    
+    private String Instructions="";
     
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         DeviceName=ResurrectorsDB[jComboBox1.getSelectedIndex()][0];
@@ -421,8 +435,9 @@ public class LowLevelUnbrickOneClickView extends FrameView {
         InitialMemoryLocation=ResurrectorsDB[jComboBox1.getSelectedIndex()][3];
         SecondaryBootloader=ResurrectorsDB[jComboBox1.getSelectedIndex()][4];
         SecondaryMemoryLocation=ResurrectorsDB[jComboBox1.getSelectedIndex()][5];
+        Instructions=ResurrectorsDB[jComboBox1.getSelectedIndex()][6];
         this.writeScript();
-        Log.level1("#"+DeviceName+"\n#RESURRECTOR SELECTED:"+InitialBootloader+ " LOCATION:0x"+ InitialMemoryLocation+"\n#SBL: "+SecondaryBootloader+ " LOCATION:0x"+ SecondaryMemoryLocation+" tool:"+Interface);
+        Log.level1("#"+DeviceName+"\n#RESURRECTOR SELECTED:"+InitialBootloader+ " LOCATION:0x"+ InitialMemoryLocation+"\n#SBL: "+SecondaryBootloader+ " LOCATION:0x"+ SecondaryMemoryLocation+" tool:"+Interface +"\n"+Instructions);
         
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
