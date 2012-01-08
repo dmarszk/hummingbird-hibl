@@ -1,4 +1,4 @@
-;   Hummingbird Interceptor Boot Loader (HIBL) v1.0
+;   Hummingbird Interceptor Boot Loader (HIBL)
 ;
 ;   Copyright 2011 Dominik Marszk
 ;
@@ -70,6 +70,7 @@ load_infuse:
 	LDR  R0, [infuse_ptrs_l]
 	BL   load_ptrs
 ptrsloaded:
+	BL   uart_sel
 	MOV  R0, 0xA
 	BL   debug_print_byte
 	LDR  R0, [s_detected_irom_a]
@@ -198,8 +199,8 @@ s_om_value_a	  dw s_om_value
 
 s_welcome db 0xA,\
 '-------------------------------------------------------------',0xA,\
-'   Hummingbird Interceptor Boot Loader (HIBL) v2.3',0xA,\
-'   Copyright (C) Rebellos 2011',0xA,\
+'   Hummingbird Interceptor Boot Loader (HIBL) v2.5',0xA,\
+'   Copyright (C) Dominik Marszk 2011',0xA,\
 '-------------------------------------------------------------',0xA,0x0
 
 s_detected_irom db 'Detected iROM version: ',0x0
@@ -221,7 +222,8 @@ ram_test_magic1   dw 0x12349876
 OM_REG		  dw 0xE010E100
 PSHOLD_SFR	  dw 0xE010E81C
 WDOG_CTRL_SFR	  dw 0xE2700000
-
+MP05_CTRL	  dw 0xE0200360
+MP05_DATA	  dw 0xE0200364
 magic_determ_location	dw 0xD0000100
 
 infuse_magic	  dw 0xE5925000
@@ -230,12 +232,30 @@ sgs_magic	  dw 0x11A0F000
 sgs_ptrs_l	  dw sgs_ptrs
 irom_rev_str_a	  dw irom_rev_str
 
+
+
+
 infuse_ptrs:
 include 'infuse.inc'
 
 sgs_ptrs:
 include 'sgs.inc'
 
+uart_sel:		 ;uart select is MP05(7)
+   STMFD SP!, {R1-R3,LR}
+   LDR	 R1, [MP05_CTRL]
+   LDR	 R2, [R1]
+   BIC	 R2, 0xF0000000
+   ORR	 R2, R2, 0x10000000 ;output
+   STR	 R2, [R1]
+   AND	 r0, r0, 0x1
+   MOV	 R0, R0, LSL#7
+   LDR	 R1, [MP05_DATA]
+   LDR	 R2, [R1]
+   BIC	 R2, R2, 0x80
+   ORR	 R2, R2, R0
+   STR	 R2, [R1]
+   LDMFD SP!, {R1-R3,PC}
 
 load_ptrs:
    STMFD SP!, {R1-R3,LR}
