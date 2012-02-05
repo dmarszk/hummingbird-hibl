@@ -106,6 +106,10 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                     jLabel1.setIcon(createImageIcon(TexasInstruments, "Texas Instruments"));
                     jLabel3.setText("TI USB");
                     jLabel2.setText("Unnown 0451:d00e TI debug mode");
+                } else if (Result.contains("0955:7820")) {
+                    jLabel1.setIcon(createImageIcon(DeviceNotFound, "The device is connected."));
+                    jLabel3.setText("NVidia");
+                    jLabel2.setText("Unnown 0955:7820 NVFlash Mode");
                 } else {
                     jLabel1.setIcon(createImageIcon(DeviceNotFound, "The device is connected."));
                     jLabel3.setText("No device detected");
@@ -411,7 +415,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
     private String NexusSInstructions = "1. Apply UnBrickable Mod\n"
         + "2. Remove then insert Device battery\n"
         + "3. Connect to computer via USB.\n"
-        + "4. Click the Download Mode button while holding button combination\n"
+        + "4. Click the Download Mode button\n"
         + "5. Download new software with fastboot for Linux.\n ";
     private String[][] ResurrectorsDB = {
         //Name     Friendly     Tool    initial     init mem    secondary  secondary mem
