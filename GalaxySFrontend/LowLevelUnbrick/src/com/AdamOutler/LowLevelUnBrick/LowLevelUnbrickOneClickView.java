@@ -24,14 +24,14 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.jdesktop.application.Action;
 import java.util.ArrayList;
-import org.jdesktop.application.SingleFrameApplication;
-import org.jdesktop.application.FrameView;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
 import javax.swing.ImageIcon;
+import org.jdesktop.application.FrameView;
+import org.jdesktop.application.SingleFrameApplication;
 
 /**
  * The application's main frame.
@@ -105,6 +105,10 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                 } else if (Result.contains("0451:d00e")) {
                     jLabel1.setIcon(createImageIcon(TexasInstruments, "Texas Instruments"));
                     jLabel3.setText("TI USB");
+                    jLabel2.setText("Unnown 0451:d010 TI debug mode");
+                } else if (Result.contains("0451:d010")) {
+                    jLabel1.setIcon(createImageIcon(TexasInstruments, "Texas Instruments"));
+                    jLabel3.setText("TI USB");
                     jLabel2.setText("Unnown 0451:d00e TI debug mode");
                 } else if (Result.contains("0955:7820")) {
                     jLabel1.setIcon(createImageIcon(DeviceNotFound, "The device is connected."));
@@ -156,9 +160,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
     /**
      * 
      */
-    @Action
-    public void showAboutBox() {
-    }
+
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
