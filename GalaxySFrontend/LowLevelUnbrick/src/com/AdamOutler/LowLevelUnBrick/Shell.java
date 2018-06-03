@@ -188,7 +188,7 @@ public class Shell implements Runnable{
             }
 
         } catch (IOException ex) {
-                    String[] ArrayList =(String[])Statics.LiveSendCommand.toArray();
+                    String[] ArrayList = Statics.LiveSendCommand.toArray(new String[0]);
                     log.level2("Problem while executing"+ ArrayList + 
                             " in Shell.liveShellCommand()");
             Logger.getLogger(Shell.class.getName()).log(Level.SEVERE, null, ex);

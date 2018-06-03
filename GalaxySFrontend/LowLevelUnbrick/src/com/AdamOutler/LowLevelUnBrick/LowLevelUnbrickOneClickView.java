@@ -363,7 +363,7 @@ public class LowLevelUnbrickOneClickView extends FrameView {
                     Log.level0("ERROR WRITING TO TEMP FOLDER");
                 }
 
-                Statics.LiveSendCommand = new ArrayList();
+                Statics.LiveSendCommand = new ArrayList<String>();
                 Statics.LiveSendCommand.add("gksudo");
                 Statics.LiveSendCommand.add("-D");
                 Statics.LiveSendCommand.add("UnBrickable Resurrector");
